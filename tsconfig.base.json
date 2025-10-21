@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    // Language and Environment
+    "lib": ["ESNext"],
+    "target": "esnext",
+
+    // Projects
+    "composite": true,
+  },
+  "include": [],
+  "files": [],
+}

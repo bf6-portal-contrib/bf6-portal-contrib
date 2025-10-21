@@ -1,0 +1,8 @@
+{
+  "name": "@bf6-portal-contrib/gate",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./hooks": "./src/hooks.ts"
+  }
+}

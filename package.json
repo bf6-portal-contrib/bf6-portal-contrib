@@ -2,6 +2,9 @@
   "name": "@bf6-portal-contrib/bf6-portal-contrib",
   "type": "module",
   "version": "0.0.1",
+  "workspaces": [
+    "packages/*"
+  ],
   "description": "Battlefield 6 Portal Contributions",
   "keywords": [
     "battlefield",
@@ -17,5 +20,8 @@
     "url": "git+https://github.com/bf6-portal-contrib/bf6-portal-contrib.git"
   },
   "license": "MIT",
-  "author": "Manuel Pacheco"
+  "author": "Manuel Pacheco",
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
 }

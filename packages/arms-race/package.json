@@ -1,0 +1,7 @@
+{
+  "name": "@bf6-portal-contrib/arms-race",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}
