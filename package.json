@@ -1,0 +1,21 @@
+{
+  "name": "@bf6-portal-contrib/bf6-portal-contrib",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "Battlefield 6 Portal Contributions",
+  "keywords": [
+    "battlefield",
+    "portal",
+    "battlefield6"
+  ],
+  "homepage": "https://github.com/bf6-portal-contrib/bf6-portal-contrib#README",
+  "bugs": {
+    "url": "https://github.com/bf6-portal-contrib/bf6-portal-contrib/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bf6-portal-contrib/bf6-portal-contrib.git"
+  },
+  "license": "MIT",
+  "author": "Manuel Pacheco"
+}
