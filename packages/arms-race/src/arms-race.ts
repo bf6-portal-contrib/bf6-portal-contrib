@@ -76,7 +76,7 @@ export class ArmsRace {
     InventoryUtils.set(
       player,
       new Map([
-        [mod.InventorySlots.MeleeWeapon, mod.Gadgets.Melee_Sledgehammer],
+        [mod.InventorySlots.MeleeWeapon, mod.Gadgets.Melee_Hunting_Knife],
       ])
     );
     InventoryUtils.set(player, inventory);
