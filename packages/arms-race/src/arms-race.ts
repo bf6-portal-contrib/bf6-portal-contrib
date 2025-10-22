@@ -1,12 +1,8 @@
-import {
-  Gate,
-  InventoryUtils,
-  Player,
-  PlayerList,
-} from "@bf6-portal-contrib/gate";
+import { Gate, Player, PlayerList } from "@bf6-portal-contrib/gate";
 import * as ui from "@bf6-portal-contrib/gate/ui";
 
 import { Config } from "./config.ts";
+import { Inventory } from "./inventory.ts";
 
 interface ArmsRacePlayerCustom {
   level: number;
@@ -40,7 +36,7 @@ export class ArmsRace {
     const player = this.players.findByNative(native);
     if (!player) return;
 
-    this.setInventory(native, player.custom.level);
+    Inventory.set(native, player.custom.level);
   }
 
   private onKill(native: mod.Player) {
@@ -63,23 +59,8 @@ export class ArmsRace {
     }
 
     if (kills === 0) {
-      this.setInventory(native, level);
+      Inventory.set(native, level);
     }
-  }
-
-  private setInventory(player: mod.Player, level: number) {
-    const inventory = Config.levelInventories[level];
-
-    if (!inventory) return;
-
-    InventoryUtils.clear(player);
-    InventoryUtils.set(
-      player,
-      new Map([
-        [mod.InventorySlots.MeleeWeapon, mod.Gadgets.Melee_Hunting_Knife],
-      ])
-    );
-    InventoryUtils.set(player, inventory);
   }
 
   private endGame(winner: mod.Player) {
