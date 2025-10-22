@@ -3,5 +3,9 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --build",
+    "build": "esbuild --bundle --format=esm --outfile='../../dist/packages/arms-race/bundled.js' ./src/index.ts"
   }
 }

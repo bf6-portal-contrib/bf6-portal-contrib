@@ -6,6 +6,9 @@
     "packages/*"
   ],
   "description": "Battlefield 6 Portal Contributions",
+  "scripts": {
+    "typecheck": "tsc --build"
+  },
   "keywords": [
     "battlefield",
     "portal",

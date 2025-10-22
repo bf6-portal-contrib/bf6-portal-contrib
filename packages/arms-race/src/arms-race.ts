@@ -68,6 +68,8 @@ export class ArmsRace {
   private setInventory(player: mod.Player, level: number) {
     const inventory = Config.levelInventories[level];
 
+    if (!inventory) return;
+
     InventoryUtils.clear(player);
     InventoryUtils.set(
       player,
