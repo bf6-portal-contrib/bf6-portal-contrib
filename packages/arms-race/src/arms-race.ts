@@ -1,10 +1,17 @@
-import { Gate, InventoryUtils, Player, PlayerList } from "@bf6-portal-contrib/gate";
+import {
+  Gate,
+  InventoryUtils,
+  Player,
+  PlayerList,
+} from "@bf6-portal-contrib/gate";
+import * as ui from "@bf6-portal-contrib/gate/ui";
 
 import { Config } from "./config.ts";
 
 interface ArmsRacePlayerCustom {
   level: number;
   kills: number;
+  ui: mod.UIWidget;
 }
 
 export class ArmsRace {
@@ -12,7 +19,17 @@ export class ArmsRace {
 
   public subscribe() {
     this.players.subscribe(
-      (native) => new Player(native, { level: 0, kills: 0 })
+      (native) =>
+        new Player(native, {
+          level: 0,
+          kills: 0,
+          ui: ui.build.node({
+            type: "text",
+            name: `${mod.GetObjId(native)}_text`,
+            message: mod.Message(mod.stringkeys.killsLevel, 0, 0),
+            receiver: native,
+          }),
+        })
     );
 
     Gate.subscribe("OnPlayerDeployed", this.onDeploy.bind(this));
@@ -21,38 +38,23 @@ export class ArmsRace {
 
   private onDeploy(native: mod.Player) {
     const player = this.players.findByNative(native);
-
-    if (!player) {
-      // TODO LOG ERROR
-      return;
-    }
+    if (!player) return;
 
     this.setInventory(native, player.custom.level);
   }
 
   private onKill(native: mod.Player) {
     const player = this.players.findByNative(native);
-
-    if (!player) {
-      // TODO LOG ERROR
-      return;
-    }
-
-    // Current debug: confirm player is found
-    mod.DisplayHighlightedWorldLogMessage(
-      mod.Message(mod.stringkeys.title),
-      native
-    );
+    if (!player) return;
 
     const kills = (player.custom.kills + 1) % Config.killsPerLevel;
     const level = kills === 0 ? player.custom.level + 1 : player.custom.level;
 
     player.update({ kills, level });
 
-    // TODO REMOVE
-    mod.DisplayHighlightedWorldLogMessage(
-      mod.Message(mod.stringkeys.killsLevel, kills, level),
-      native
+    mod.SetUITextLabel(
+      player.custom.ui,
+      mod.Message(mod.stringkeys.killsLevel, kills, level)
     );
 
     if (level >= Config.levelInventories.length) {
