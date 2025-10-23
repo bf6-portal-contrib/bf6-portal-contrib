@@ -1,9 +1,9 @@
 import { Gate, Player, PlayerList } from "@bf6-portal-contrib/gate";
-import * as ui from "@bf6-portal-contrib/gate/ui";
 
 import { Config } from "./config.ts";
 import { Inventory } from "./inventory.ts";
 import type { ArmsRacePlayerCustom } from "./types.ts";
+import { PlayerUI } from "./player-ui.ts";
 
 export class ArmsRace {
   private players = new PlayerList<ArmsRacePlayerCustom>();
@@ -14,12 +14,7 @@ export class ArmsRace {
         new Player(native, {
           level: 0,
           kills: 0,
-          ui: ui.build.node({
-            type: "text",
-            name: `${mod.GetObjId(native)}_text`,
-            message: mod.Message(mod.stringkeys.killsLevel, 0, 0),
-            receiver: native,
-          }),
+          ui: PlayerUI.build(0, native),
         })
     );
 
@@ -42,6 +37,7 @@ export class ArmsRace {
     const level = kills === 0 ? player.custom.level + 1 : player.custom.level;
 
     player.update({ kills, level });
+    PlayerUI.update(level, player.custom.ui);
 
     mod.SetUITextLabel(
       player.custom.ui,
