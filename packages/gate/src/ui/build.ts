@@ -1,4 +1,4 @@
-import type { Container, Node, Text } from "./types.ts";
+import type { Container, Node, Text, WeaponImage } from "./types.ts";
 
 const DEFAULTS = {
   name: "",
@@ -26,6 +26,9 @@ const DEFAULTS = {
   textColor: mod.CreateVector(1, 1, 1),
   textAlpha: 1,
   textAnchor: mod.UIAnchor.CenterLeft,
+
+  // Weapon Image
+  weaponsPackage: mod.CreateNewWeaponPackage(),
 };
 
 export const build = {
@@ -35,10 +38,13 @@ export const build = {
         return build.container(node);
       case "text":
         return build.text(node);
+      case "weaponImage":
+        return build.weaponImage(node);
       default:
         throw new Error(`Unknown node type: ${(node as any).type}`);
     }
   },
+
   container: (node: Container): mod.UIWidget => {
     const name = node.name ?? DEFAULTS.name;
     const args = [
@@ -58,8 +64,15 @@ export const build = {
 
     mod.AddUIContainer(...args);
 
-    return findAndNameWidget(name);
+    const widget = findAndNameWidget(name);
+
+    node.children?.forEach((child) => {
+      build.node({ ...child, parent: widget });
+    });
+
+    return widget;
   },
+
   text: (node: Text): mod.UIWidget => {
     const name = node.name ?? DEFAULTS.name;
     const args = [
@@ -83,6 +96,22 @@ export const build = {
     ] as Parameters<typeof mod.AddUIText>;
 
     mod.AddUIText(...args);
+
+    return findAndNameWidget(name);
+  },
+
+  weaponImage: (node: WeaponImage): mod.UIWidget => {
+    const name = node.name ?? DEFAULTS.name;
+    const args = [
+      DEFAULTS.temporaryName,
+      node.position ?? DEFAULTS.position,
+      node.size ?? DEFAULTS.size,
+      node.anchor ?? DEFAULTS.anchor,
+      node.weapon,
+      node.parent ?? DEFAULTS.parent,
+    ] as const;
+
+    mod.AddUIWeaponImage(...args);
 
     return findAndNameWidget(name);
   },

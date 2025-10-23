@@ -1,9 +1,9 @@
 // Utilities
 
 export interface Layout {
+  anchor: mod.UIAnchor;
   position: mod.Vector;
   size: mod.Vector;
-  anchor: mod.UIAnchor;
   depth: mod.UIDepth;
 }
 
@@ -29,7 +29,9 @@ export type BaseNode<T> = {
 
 // Specific Nodes
 
-export type Container = BaseNode<"container">;
+export type Container = BaseNode<"container"> & {
+  children?: Node[];
+};
 
 export type Text = BaseNode<"text"> & {
   message: mod.Message;
@@ -39,6 +41,13 @@ export type Text = BaseNode<"text"> & {
   textAnchor?: mod.UIAnchor;
 };
 
+export type WeaponImage = {
+  type: "weaponImage";
+  name?: string;
+  parent?: mod.UIWidget;
+  weapon: mod.Weapons;
+} & Partial<Omit<Layout, "depth">>;
+
 // Union of all node types
 
-export type Node = Container | Text;
+export type Node = Container | Text | WeaponImage;
