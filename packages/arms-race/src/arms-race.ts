@@ -2,8 +2,9 @@ import { Gate, Player, PlayerList } from "@bf6-portal-contrib/gate";
 
 import { Config } from "./config.ts";
 import { Inventory } from "./inventory.ts";
-import type { ArmsRacePlayerCustom } from "./types.ts";
 import { PlayerUI } from "./player-ui.ts";
+import { Score } from "./score.ts";
+import type { ArmsRacePlayerCustom } from "./types.ts";
 
 export class ArmsRace {
   private players = new PlayerList<ArmsRacePlayerCustom>();
@@ -29,28 +30,27 @@ export class ArmsRace {
     Inventory.set(native, player.custom.level);
   }
 
-  private onKill(native: mod.Player) {
+  private onKill(
+    native: mod.Player,
+    otherNative: mod.Player,
+    eventDeathType: mod.DeathType
+  ) {
     const player = this.players.findByNative(native);
-    if (!player) return;
+    const otherPlayer = this.players.findByNative(otherNative);
+    if (!player || !otherPlayer) return;
 
-    const kills = (player.custom.kills + 1) % Config.killsPerLevel;
-    const level = kills === 0 ? player.custom.level + 1 : player.custom.level;
+    const levelIncreased = Score.update(player, otherPlayer, eventDeathType);
 
-    player.update({ kills, level });
-    PlayerUI.update(level, player.custom.ui);
+    PlayerUI.update(player.custom.level, player.custom.ui);
+    PlayerUI.update(otherPlayer.custom.level, otherPlayer.custom.ui);
 
-    mod.SetUITextLabel(
-      player.custom.ui,
-      mod.Message(mod.stringkeys.killsLevel, kills, level)
-    );
-
-    if (level >= Config.levelInventories.length) {
+    if (player.custom.level >= Config.maxLevel) {
       this.endGame(native);
       return;
     }
 
-    if (kills === 0) {
-      Inventory.set(native, level);
+    if (levelIncreased) {
+      Inventory.set(native, player.custom.level);
     }
   }
 
