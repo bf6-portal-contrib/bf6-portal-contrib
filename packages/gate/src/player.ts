@@ -3,12 +3,12 @@ export type PlayerId = number;
 
 export class Player<Custom> {
   id: PlayerId;
-  // native: mod.Player;
+  native: mod.Player;
   custom: Custom;
 
   constructor(native: mod.Player, custom: Custom) {
     this.id = mod.GetObjId(native);
-    // this.native = native;
+    this.native = native;
     this.custom = custom;
   }
 
