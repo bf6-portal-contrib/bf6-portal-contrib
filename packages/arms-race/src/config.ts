@@ -8,9 +8,11 @@ export const Config = {
 
   levelInventories: [
     ...[
+      // Snipers are currently disabled because I feel they are not a fun
+      // weapon type in such an enclosed map.
       // Snipers
-      mod.Weapons.Sniper_PSR,
-      mod.Weapons.Sniper_M2010_ESR,
+      // mod.Weapons.Sniper_PSR,
+      // mod.Weapons.Sniper_M2010_ESR,
 
       // DMRs
       mod.Weapons.DMR_SVK_86,
