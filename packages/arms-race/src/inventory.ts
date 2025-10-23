@@ -17,4 +17,14 @@ export class Inventory {
     );
     InventoryUtils.set(player, inventory);
   }
+
+  public static getPrimaryWeapon(level: number): mod.Weapons {
+    const inventory = Config.levelInventories[level];
+
+    const weapon = inventory?.get(mod.InventorySlots.PrimaryWeapon) as
+      | mod.Weapons
+      | undefined;
+
+    return weapon ?? Config.defaultWeapon;
+  }
 }
