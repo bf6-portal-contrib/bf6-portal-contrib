@@ -1,69 +1,116 @@
 import * as ui from "@bf6-portal-contrib/gate/ui";
 
-import { Inventory } from "./inventory.ts";
-import { Config } from "./config.ts";
+const textColor = mod.CreateVector(0.72, 0.78, 0.81);
 
 export class PlayerUI {
-  static build(level: number, receiver: mod.Player): mod.UIWidget {
+  static build(
+    kills: number,
+    level: number,
+    receiver: mod.Player
+  ): mod.UIWidget {
     return ui.build.node({
       receiver,
       type: "container",
-      name: "container",
 
-      anchor: mod.UIAnchor.TopRight,
-      position: mod.CreateVector(200, 200, 0),
-      size: mod.CreateVector(64 + 128 + 128, 64, 0),
+      anchor: mod.UIAnchor.BottomRight,
+      position: mod.CreateVector(288, 68, 0),
+      size: mod.CreateVector(144, 64, 0),
+
+      bgFill: mod.UIBgFill.None,
 
       children: [
+        // Kills Container
         {
-          type: "weaponImage",
-          name: "weaponIcon",
-          weapon: Inventory.getPrimaryWeapon(level),
+          type: "container",
 
           anchor: mod.UIAnchor.CenterLeft,
-          position: mod.CreateVector(0, 0, 0),
           size: mod.CreateVector(64, 64, 0),
+
+          bgFill: mod.UIBgFill.Blur,
+
+          children: [
+            {
+              type: "text",
+
+              anchor: mod.UIAnchor.TopCenter,
+              size: mod.CreateVector(64, 64, 0),
+
+              bgFill: mod.UIBgFill.None,
+
+              message: mod.Message(mod.stringkeys.kills),
+              textSize: 16,
+              textColor,
+              textAnchor: mod.UIAnchor.TopCenter,
+            },
+            {
+              type: "text",
+              name: "kills",
+
+              anchor: mod.UIAnchor.BottomCenter,
+              size: mod.CreateVector(64, 64, 0),
+
+              bgFill: mod.UIBgFill.None,
+
+              message: mod.Message(mod.stringkeys.numeric, kills),
+              textSize: 36,
+              textColor,
+              textAnchor: mod.UIAnchor.BottomCenter,
+            },
+          ],
         },
+
+        // Level Container
         {
-          type: "text",
-          name: "level",
+          type: "container",
 
-          anchor: mod.UIAnchor.CenterLeft,
-          position: mod.CreateVector(64, 0, 0),
-          size: mod.CreateVector(128, 64, 0),
+          anchor: mod.UIAnchor.CenterRight,
+          size: mod.CreateVector(64, 64, 0),
 
-          // bgAlpha: 0,
+          bgFill: mod.UIBgFill.Blur,
 
-          message: mod.Message(
-            mod.stringkeys.currentLevel,
-            level,
-            Config.maxLevel
-          ),
-          textSize: 24,
-        },
-        {
-          type: "text",
-          name: "you",
+          children: [
+            {
+              type: "text",
 
-          anchor: mod.UIAnchor.CenterLeft,
-          position: mod.CreateVector(64 + 128, 0, 0),
-          size: mod.CreateVector(128, 64, 0),
+              anchor: mod.UIAnchor.TopCenter,
+              size: mod.CreateVector(64, 64, 0),
 
-          // bgAlpha: 0,
+              bgFill: mod.UIBgFill.None,
 
-          message: mod.Message(mod.stringkeys.you),
-          textSize: 24,
+              message: mod.Message(mod.stringkeys.level),
+              textSize: 16,
+              textColor,
+              textAnchor: mod.UIAnchor.TopCenter,
+            },
+            {
+              type: "text",
+              name: "level",
+
+              anchor: mod.UIAnchor.BottomCenter,
+              size: mod.CreateVector(64, 64, 0),
+
+              bgFill: mod.UIBgFill.None,
+
+              message: mod.Message(mod.stringkeys.numeric, level),
+              textSize: 36,
+              textColor,
+              textAnchor: mod.UIAnchor.BottomCenter,
+            },
+          ],
         },
       ],
     });
   }
 
-  static update(level: number, root: mod.UIWidget) {
-    // TODO UPDATE WEAPON ICON
-    // const weaponIconWidget = mod.FindUIWidgetWithName('weaponIcon', root);
+  static update(kills: number, level: number, root: mod.UIWidget) {
+    mod.SetUITextLabel(
+      mod.FindUIWidgetWithName("kills", root),
+      mod.Message(mod.stringkeys.numeric, kills)
+    );
 
-    const levelWidget = mod.FindUIWidgetWithName("level", root);
-    mod.SetUITextLabel(levelWidget, mod.Message(mod.stringkeys.currentLevel, level, Config.maxLevel));
+    mod.SetUITextLabel(
+      mod.FindUIWidgetWithName("level", root),
+      mod.Message(mod.stringkeys.numeric, level)
+    );
   }
 }
-

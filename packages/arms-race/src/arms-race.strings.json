@@ -1,5 +1,5 @@
 {
-  "killsLevel": "Kills: {} | Level: {}",
-  "currentLevel": "{} / {}",
-  "you": "You"
+  "kills": "KILLS",
+  "level": "LEVEL",
+  "numeric": "{}"
 }

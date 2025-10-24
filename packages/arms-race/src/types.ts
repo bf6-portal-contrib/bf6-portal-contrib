@@ -1,5 +1,5 @@
 export interface ArmsRacePlayerCustom {
-  level: number;
   kills: number;
+  level: number;
   ui: mod.UIWidget;
 }

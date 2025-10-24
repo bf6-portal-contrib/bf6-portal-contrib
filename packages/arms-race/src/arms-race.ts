@@ -13,9 +13,9 @@ export class ArmsRace {
     this.players.subscribe(
       (native) =>
         new Player(native, {
-          level: 0,
           kills: 0,
-          ui: PlayerUI.build(0, native),
+          level: 0,
+          ui: PlayerUI.build(0, 0, native),
         })
     );
 
@@ -41,8 +41,12 @@ export class ArmsRace {
 
     const levelIncreased = Score.update(player, otherPlayer, eventDeathType);
 
-    PlayerUI.update(player.custom.level, player.custom.ui);
-    PlayerUI.update(otherPlayer.custom.level, otherPlayer.custom.ui);
+    PlayerUI.update(player.custom.kills, player.custom.level, player.custom.ui);
+    PlayerUI.update(
+      otherPlayer.custom.kills,
+      otherPlayer.custom.level,
+      otherPlayer.custom.ui
+    );
 
     if (player.custom.level >= Config.maxLevel) {
       this.endGame(native);
