@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "../../dist/packages/air-superiority"
+  },
+  "include": ["src", "../mod/index.d.ts"],
+  "exclude": ["jest.config.ts", "**/*.spec.*"],
+  "references": [
+    {
+      "path": "../gate/tsconfig.lib.json"
+    }
+  ]
+}
