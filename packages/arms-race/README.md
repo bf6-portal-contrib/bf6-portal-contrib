@@ -7,6 +7,8 @@ Get new weapons by killing enemies and win by doing the final knife kill!
 
 Features:
 
+- Fix losing weapons on execution
+- Fix taking kits from the floor
 - Improve scoreboard with custom leveling
 - Improve sound effects when leveling up
 - Improve notifications for new players taking the lead
