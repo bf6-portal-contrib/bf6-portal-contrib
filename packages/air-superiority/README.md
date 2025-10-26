@@ -4,22 +4,15 @@ A quick-respawn air-vehicle only gamemode in Firestorm
 
 ## TODO List
 
-Current:
+Next Features:
 
-- Spawn in Vehicle
-
-Features:
-
-- Choose vehicle
-- Spawn quickly
-- Configure experience UI-based settings
-- Configure experience metadata
-- Set conquest mode
-
-Nice to have:
-
-- X
-
-Technical Improvements:
-
-- X
+- Make bots unable to leave vehicles
+- Configure vehicle spawn points better
+- Fix bot sometimes spawning in the wrong spawn
+- Use faction-based vehicles
+- Add aerial objectives
+- Try configuring a conquest gamemode
+- Do not add vehicles when deploying in friendly vehicles
+- Choose vehicle using UI (use mod.EnableUIInputMode)
+- Do not use UI for bots
+- Configure capstone map in the rotation
