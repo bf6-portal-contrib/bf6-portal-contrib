@@ -29,7 +29,7 @@
     "verbatimModuleSyntax": true,
 
     // Language and Environment
-    "lib": ["ESNext"],
+    "lib": ["ESNext", "DOM"],
     "target": "esnext",
 
     // Projects

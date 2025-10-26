@@ -22,4 +22,29 @@ export class InventoryUtils {
       mod.AddEquipment(player, item as any, slot);
     }
   }
-};
+
+  static inferClass(player: mod.Player): mod.SoldierClass | undefined {
+    const relations = [
+      {
+        class: mod.SoldierClass.Assault,
+        gadget: mod.Gadgets.Class_Adrenaline_Injector,
+      },
+      {
+        class: mod.SoldierClass.Engineer,
+        gadget: mod.Gadgets.Class_Repair_Tool,
+      },
+      {
+        class: mod.SoldierClass.Support,
+        gadget: mod.Gadgets.Class_Supply_Bag,
+      },
+      {
+        class: mod.SoldierClass.Recon,
+        gadget: mod.Gadgets.Class_Motion_Sensor,
+      },
+    ];
+
+    return relations.find((relation) =>
+      mod.HasEquipment(player, relation.gadget)
+    )?.class;
+  }
+}
