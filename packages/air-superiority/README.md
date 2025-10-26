@@ -6,9 +6,8 @@ A quick-respawn air-vehicle only gamemode in Firestorm
 
 Next Features:
 
-- Make bots unable to leave vehicles
-- Configure vehicle spawn points better
-- Fix bot sometimes spawning in the wrong spawn
+- Fix objective capturing
+- Improve spawn height
 - Use faction-based vehicles
 - Add aerial objectives
 - Try configuring a conquest gamemode

@@ -10,8 +10,6 @@ import {
 
 import type { Custom } from "./types.ts";
 
-// const context = "AirSuperiority";
-
 // TODO VERIFY rotation values
 const TeamConfig: Record<number, { center: mod.Vector; rotation: mod.Vector }> =
   {
@@ -101,6 +99,14 @@ export class AirSuperiority {
     this.seatQueue.push(id);
 
     mod.ForceVehicleSpawnerSpawn(spawner);
+
+    // Since spawn can fail (space occupied, etc.), repeat until a vehicle is attached
+    while (true) {
+      mod.ForceVehicleSpawnerSpawn(spawner);
+
+      await mod.Wait(0.5);
+      if (player.custom.vehicle) break;
+    }
   }
 
   private onVehicleSpawned(vehicle: mod.Vehicle) {
