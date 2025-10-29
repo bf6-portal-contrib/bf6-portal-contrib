@@ -10,6 +10,7 @@ import {
 } from "@bf6-portal-contrib/gate";
 
 import type { Custom } from "./types.ts";
+import { SoldierUtils } from "../../gate/src/soldier.ts";
 
 const TeamConfig: Record<number, { center: mod.Vector; rotation: mod.Vector }> =
   {
@@ -25,24 +26,45 @@ const TeamConfig: Record<number, { center: mod.Vector; rotation: mod.Vector }> =
     },
   };
 
-// Aircraft Select
-// TODO IMPROVE faction-based
-const AircraftSelect = new Map<mod.SoldierClass, mod.VehicleList>([
+const AircraftSelect = new Map<
+  mod.SoldierClass,
+  Map<mod.Factions, mod.VehicleList>
+>([
   // Attack Helicopter
-  [mod.SoldierClass.Assault, mod.VehicleList.AH64],
-  // PAX Eurocopter
+  [
+    mod.SoldierClass.Assault,
+    new Map([
+      [mod.Factions.NATO, mod.VehicleList.AH64],
+      [mod.Factions.PaxArmata, mod.VehicleList.Eurocopter],
+    ]),
+  ],
 
   // Transport Helicopter
-  [mod.SoldierClass.Engineer, mod.VehicleList.UH60],
-  // PAX UH60
+  [
+    mod.SoldierClass.Engineer,
+    new Map([
+      [mod.Factions.NATO, mod.VehicleList.UH60],
+      [mod.Factions.PaxArmata, mod.VehicleList.UH60_Pax],
+    ]),
+  ],
 
   // Fighter Jet
-  [mod.SoldierClass.Support, mod.VehicleList.F16],
-  // PAX SU57
+  [
+    mod.SoldierClass.Support,
+    new Map([
+      [mod.Factions.NATO, mod.VehicleList.F22],
+      [mod.Factions.PaxArmata, mod.VehicleList.JAS39],
+    ]),
+  ],
 
   // Attack Jet
-  [mod.SoldierClass.Recon, mod.VehicleList.F22],
-  // PAX JAS39
+  [
+    mod.SoldierClass.Support,
+    new Map([
+      [mod.Factions.NATO, mod.VehicleList.F16],
+      [mod.Factions.PaxArmata, mod.VehicleList.SU57],
+    ]),
+  ],
 ]);
 
 export class AirSuperiority {
@@ -73,11 +95,17 @@ export class AirSuperiority {
     if (player.custom.vehicle) mod.Kill(player.custom.vehicle);
     if (player.custom.spawner) mod.UnspawnObject(player.custom.spawner);
 
-    const teamId = mod.GetObjId(mod.GetTeam(native));
+    const team = mod.GetTeam(native);
+    const teamId = mod.GetObjId(team);
+    const faction = SoldierUtils.getTeamFaction(team);
     const config = TeamConfig[teamId]!;
 
-    const sClass = InventoryUtils.getClass(native);
-    const vehicle = AircraftSelect.get(sClass)!;
+    const rawSClass = SoldierUtils.getClass(native);
+    const isAI = mod.GetSoldierState(native, mod.SoldierStateBool.IsAISoldier);
+    const isEngineer = rawSClass === mod.SoldierClass.Engineer;
+    const sClass = isAI && isEngineer ? mod.SoldierClass.Assault : rawSClass;
+
+    const vehicle = AircraftSelect.get(sClass)!.get(faction)!;
     const yOffset = VehicleUtils.isJet(vehicle) ? 400 : 0;
 
     const position = mod.Add(
