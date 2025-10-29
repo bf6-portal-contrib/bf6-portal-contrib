@@ -22,13 +22,4 @@ export class InventoryUtils {
       mod.AddEquipment(player, item as any, slot);
     }
   }
-
-  static getClass(player: mod.Player): mod.SoldierClass {
-    return [
-        mod.SoldierClass.Assault,
-        mod.SoldierClass.Engineer,
-        mod.SoldierClass.Support,
-        mod.SoldierClass.Recon,
-    ].find((sClass) => mod.IsSoldierClass(player, sClass))!;
-  }
 }
