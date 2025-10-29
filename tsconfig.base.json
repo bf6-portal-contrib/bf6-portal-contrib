@@ -22,6 +22,7 @@
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "rewriteRelativeImportExtensions": true,
+    "types": ["node"],
 
     // Interop Constraints
     "erasableSyntaxOnly": true,
