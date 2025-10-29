@@ -19,3 +19,7 @@ await $`jscodeshift -t ../../scripts/typescript-transformer.ts '${output}'`;
 // annotations, so we relax its types too.
 await $`sed -i '1i\\declare const mod: any;' '${output}'`;
 
+// Add some build metadata for easier build identification
+const date = new Date().toISOString();
+await $`sed -i '1i\\// Build date: ${date}' '${output}'`;
+
