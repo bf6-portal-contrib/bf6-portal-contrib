@@ -6,7 +6,6 @@
   },
   "scripts": {
     "typecheck": "tsc --build",
-    "build": "esbuild --bundle --format=esm --outfile='../../dist/packages/air-superiority/bundle.js' ./src/index.ts",
-    "postbuild": "sed '1i\\// @ts-nocheck' ../../dist/packages/air-superiority/bundle.js > ../../dist/packages/air-superiority/bundle.ts"
+    "build": "zx ../../scripts/build-experience.ts"
   }
 }
