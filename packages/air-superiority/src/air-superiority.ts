@@ -11,18 +11,17 @@ import {
 
 import type { Custom } from "./types.ts";
 
-// TODO VERIFY rotation values
 const TeamConfig: Record<number, { center: mod.Vector; rotation: mod.Vector }> =
   {
     // Team 1
     1: {
       center: mod.CreateVector(-500, 200, 0),
-      rotation: mod.CreateVector(0, 1, 0),
+      rotation: mod.CreateVector(0, Math.PI / 2, 0),
     },
     // Team 2
     2: {
       center: mod.CreateVector(500, 200, 0),
-      rotation: mod.CreateVector(0, -1, 0),
+      rotation: mod.CreateVector(0, -Math.PI / 2, 0),
     },
   };
 
