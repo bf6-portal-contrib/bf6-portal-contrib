@@ -1,6 +1,5 @@
 import {
   Gate,
-  InventoryUtils,
   Player,
   PlayerList,
   Random,
@@ -59,7 +58,7 @@ const AircraftSelect = new Map<
 
   // Attack Jet
   [
-    mod.SoldierClass.Support,
+    mod.SoldierClass.Recon,
     new Map([
       [mod.Factions.NATO, mod.VehicleList.F16],
       [mod.Factions.PaxArmata, mod.VehicleList.SU57],
