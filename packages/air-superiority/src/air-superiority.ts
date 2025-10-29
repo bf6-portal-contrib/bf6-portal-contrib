@@ -5,6 +5,7 @@ import {
   PlayerList,
   Random,
   Spawn,
+  VehicleUtils,
   type PlayerId,
 } from "@bf6-portal-contrib/gate";
 
@@ -15,12 +16,12 @@ const TeamConfig: Record<number, { center: mod.Vector; rotation: mod.Vector }> =
   {
     // Team 1
     1: {
-      center: mod.CreateVector(-500, 600, 0),
+      center: mod.CreateVector(-500, 200, 0),
       rotation: mod.CreateVector(0, 1, 0),
     },
     // Team 2
     2: {
-      center: mod.CreateVector(500, 600, 0),
+      center: mod.CreateVector(500, 200, 0),
       rotation: mod.CreateVector(0, -1, 0),
     },
   };
@@ -73,32 +74,27 @@ export class AirSuperiority {
     if (player.custom.vehicle) mod.Kill(player.custom.vehicle);
     if (player.custom.spawner) mod.UnspawnObject(player.custom.spawner);
 
-    // TODO COMPLETE Positions must be randomized to avoid collisions
-    // TODO CONFIRM this works
     const teamId = mod.GetObjId(mod.GetTeam(native));
-
     const config = TeamConfig[teamId]!;
+
+    const sClass = InventoryUtils.getClass(native);
+    const vehicle = AircraftSelect.get(sClass)!;
+    const yOffset = VehicleUtils.isJet(vehicle) ? 400 : 0;
+
     const position = mod.Add(
       config.center,
       Random.vectorRange(
-        mod.CreateVector(-50, -20, -100),
-        mod.CreateVector(50, 20, 100)
+        mod.CreateVector(-50, yOffset - 20, -100),
+        mod.CreateVector(50, yOffset + 20, 100)
       )
     );
     const rotation = config.rotation;
+
     const spawner = Spawn.vehicleSpawner(position, rotation);
-
-    const pClass =
-      InventoryUtils.inferClass(native) ?? mod.SoldierClass.Assault;
-    const vehicle = AircraftSelect.get(pClass) ?? mod.VehicleList.AH64;
-
     mod.SetVehicleSpawnerVehicleType(spawner, vehicle);
-    // TODO COMPLETE spawner config? Mostly for abandoned vehicles if players leave
 
     player.update({ spawner });
     this.seatQueue.push(id);
-
-    mod.ForceVehicleSpawnerSpawn(spawner);
 
     // Since spawn can fail (space occupied, etc.), repeat until a vehicle is attached
     while (true) {
@@ -110,7 +106,8 @@ export class AirSuperiority {
   }
 
   private onVehicleSpawned(vehicle: mod.Vehicle) {
-    // const requester = this.players.findByCustom((custom) => custom.requesting);
+    // TODO seat queue can be replaced by finding best player candidate
+    // based on team, vehicle requested, and vehicle type
     const requesterId = this.seatQueue.shift();
     if (requesterId === undefined) return;
 
