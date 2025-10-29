@@ -25,7 +25,12 @@
   "license": "MIT",
   "author": "Manuel Pacheco",
   "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/jscodeshift": "^17.3.0",
+    "@types/node": "^24.9.2",
     "esbuild": "^0.25.11",
-    "typescript": "^5.9.3"
+    "jscodeshift": "^17.3.0",
+    "typescript": "^5.9.3",
+    "zx": "^8.8.5"
   }
 }
