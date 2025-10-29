@@ -6,4 +6,5 @@ export * from "./spawn.ts";
 export * from "./player.ts";
 export * from "./player-list.ts";
 export * from "./random.ts";
+export * from "./vehicle.ts";
 export * from "./vehicle-spawner-pool.ts";
