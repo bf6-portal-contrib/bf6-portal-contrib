@@ -6,7 +6,6 @@
   },
   "scripts": {
     "typecheck": "tsc --build",
-    "build": "esbuild --bundle --format=esm --outfile='../../dist/packages/arms-race/bundle.js' ./src/index.ts",
-    "postbuild": "sed '1i\\// @ts-nocheck' ../../dist/packages/arms-race/bundle.js > ../../dist/packages/arms-race/bundle.ts"
+    "build": "zx ../../scripts/build-experience.ts"
   }
 }
